@@ -1,80 +1,77 @@
 package com.zencon.zennews.activity;
 
-import android.icu.text.DisplayContext;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ListView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.zencon.zennews.R;
-import com.zencon.zennews.adapter.NewsListAdapter;
-import com.zencon.zennews.model.News;
+import com.zencon.zennews.adapter.TabViewPagerAdapter;
+import com.zencon.zennews.fragments.NewsListFragment;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
+public class MainActivity extends FragmentActivity {
 
-public class MainActivity extends AppCompatActivity {
+    private ViewPager mainPageViewPager;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        final ListView listView = (ListView) findViewById(R.id.newsListView);
+        setContentView(R.layout.activity_main);
 
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this).build();
 
         ImageLoader.getInstance().init(config);
 
-        RequestQueue queue = Volley.newRequestQueue(this);
+        initUI();
+    }
 
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                "http://zennews24.com/wp-json/wp/v2/posts/?filter[category_name]=lead-news",
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
+    private void initUI()
+    {
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.jokeTypeTab);
 
-                        try {
-                            Gson gson = new Gson();
+        tabLayout.addTab(tabLayout.newTab().setText("Latest News"));
+        tabLayout.addTab(tabLayout.newTab().setText("Politics"));
+        tabLayout.addTab(tabLayout.newTab().setText("Sports"));
 
-                            String jsonOutput = response;
-                            Type listType = new TypeToken<List<News>>(){}.getType();
-                            ArrayList<News> posts = (ArrayList<News>) gson.fromJson(jsonOutput, listType);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
-                            for(News n : posts)
-                            {
-                                Log.d("Title : " , n.getTitle().getRendered());
-                                Log.d("Thumbnail : " , n.getThumbNailPath());
-                                Log.d("Link : " , n.getLink());
-                            }
+        TabViewPagerAdapter pagerAdapter = new TabViewPagerAdapter(getSupportFragmentManager(),tabLayout.getTabCount() + 1);
 
-                            listView.setAdapter(new NewsListAdapter(MainActivity.this,posts));
-                        }
-                        catch(Exception ex)
-                        {
-                            Log.d("ex:",ex.getMessage());
-                        }
-                      Log.d("Response : ",response);
-                    }
-                }, new Response.ErrorListener() {
+        mainPageViewPager = (ViewPager) findViewById(R.id.mainPageViewPager);
+
+        mainPageViewPager.setAdapter(pagerAdapter);
+
+        mainPageViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
+        TabLayout.Tab tab = tabLayout.getTabAt(0);
+        tab.select();
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-               // mTextView.setText("That didn't work!");
+            public void onTabSelected(TabLayout.Tab tab) {
+                mainPageViewPager.setCurrentItem(tab.getPosition());
+
+                Fragment f = ((TabViewPagerAdapter) mainPageViewPager.getAdapter()).getCurrentFragment();
+
+                if (f instanceof NewsListFragment && f != null) {
+                    ((NewsListFragment) f).loadNewsList();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
             }
         });
-
-        queue.add(stringRequest);
     }
 }

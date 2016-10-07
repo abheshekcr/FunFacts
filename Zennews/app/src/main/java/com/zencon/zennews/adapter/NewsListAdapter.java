@@ -38,7 +38,8 @@ public class NewsListAdapter extends ArrayAdapter<News>
             this.newsList = newsList;
         }
 
-    public int getCount()
+
+        public int getCount()
     {
         return   newsList.size();
     }
