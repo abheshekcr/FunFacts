@@ -12,12 +12,12 @@ public class News
     private String link;
 
     @SerializedName("title")
-    private Title title;
+    private String title;
 
     @SerializedName("ccw_thumbnail")
     private String thumbNailPath;
 
-    public News(String link, Title title,String thumbNailPath)
+    public News(String link, String title,String thumbNailPath)
     {
         this.link = link;
         this.title = title;
@@ -32,11 +32,11 @@ public class News
         this.link = link;
     }
 
-    public Title getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(Title title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 

@@ -16,6 +16,9 @@ public class MainActivity extends FragmentActivity {
 
     private ViewPager mainPageViewPager;
 
+    private final String[] categoryList = {"lead-news","bangladesh","politic","economy","world","sports",
+            "entertainment","lifestyle","sciencetech","sciencetech","health","ctg"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,7 +54,7 @@ public class MainActivity extends FragmentActivity {
 
         TabLayout.Tab tab = tabLayout.getTabAt(0);
         tab.select();
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 mainPageViewPager.setCurrentItem(tab.getPosition());
@@ -59,7 +62,7 @@ public class MainActivity extends FragmentActivity {
                 Fragment f = ((TabViewPagerAdapter) mainPageViewPager.getAdapter()).getCurrentFragment();
 
                 if (f instanceof NewsListFragment && f != null) {
-                    ((NewsListFragment) f).loadNewsList();
+                    ((NewsListFragment) f).loadNewsList(categoryList[tab.getPosition()]);
                 }
             }
 

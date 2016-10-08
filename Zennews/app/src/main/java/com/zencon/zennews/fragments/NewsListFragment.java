@@ -53,18 +53,19 @@ public class NewsListFragment extends Fragment
     }
 
 
-    public void loadNewsList()
+    public void loadNewsList(String category)
     {
         final ListView listView = (ListView) mainPageView.findViewById(R.id.newsListView);
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
-        // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                "http://zennews24.com/wp-json/wp/v2/posts/?filter[category_name]=lead-news",
+                "http://zennews24.com/wp-json/wp/v2/posts/?filter[category_name]="+category,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+
+                        Log.d("response:",response);
 
                         try {
                             Gson gson = new Gson();
@@ -75,7 +76,7 @@ public class NewsListFragment extends Fragment
 
                             for(News n : posts)
                             {
-                                Log.d("Title : " , n.getTitle().getRendered());
+                                Log.d("Title : " , n.getTitle());
                                 Log.d("Thumbnail : " , n.getThumbNailPath());
                                 Log.d("Link : " , n.getLink());
                             }

@@ -64,7 +64,7 @@ public class NewsListAdapter extends ArrayAdapter<News>
                 rowView.setTag(viewHolder);
             }
 
-            Log.d("Data:",newsList.get(position).getTitle().getRendered());
+            Log.d("Data:",newsList.get(position).getTitle());
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
 
@@ -74,7 +74,7 @@ public class NewsListAdapter extends ArrayAdapter<News>
 
             imageLoader.displayImage(news.getThumbNailPath(), holder.image);
 
-            holder.text.setText(news.getTitle().getRendered());
+            holder.text.setText(news.getTitle());
 
             return rowView;
         }
