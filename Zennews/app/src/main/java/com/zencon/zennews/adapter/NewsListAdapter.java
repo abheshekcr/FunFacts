@@ -1,6 +1,8 @@
 package com.zencon.zennews.adapter;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Typeface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,16 +21,67 @@ import java.util.ArrayList;
  * Created by USER on 9/25/2016.
  */
 
-public class NewsListAdapter extends ArrayAdapter<News>
+class ViewHolder
 {
-        private final Activity context;
+    public TextView text;
+    public ImageView image;
+}
+
+public class NewsListAdapter extends GenericListAdapter<News>
+{
+    private int layoutId;
+    private Activity root;
+
+    public NewsListAdapter(Context context,Activity root,ArrayList<News> items)
+    {
+        super(context,items);
+
+        this.root = root;
+        this.layoutId = R.layout.news_row_item;
+    }
+
+    public View createView(int position,View convertView,ViewGroup parent)
+    {
+        ViewHolder holder = null;
+
+        if(convertView == null)
+        {
+            convertView = inflater.inflate(R.layout.news_row_item,null);
+
+            holder = new ViewHolder();
+
+            holder.text = (TextView)convertView.findViewById(R.id.jokeTextView);
+
+            holder.image = (ImageView) convertView.findViewById(R.id.newsThumbImageView);
+
+            convertView.setTag(holder);
+        }
+        else
+        {
+            holder = (ViewHolder)convertView.getTag();
+        }
+
+        ViewHolder hd = (ViewHolder) convertView.getTag();
+
+        News news = items.get(position);
+
+        ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
+
+        imageLoader.displayImage(news.getThumbNailPath(), holder.image);
+
+        hd.text.setText(news.getTitle());
+
+        return convertView;
+    }
+
+    public long getViewId(ArrayList<News> items,int pos)
+    {
+        return -1;
+    }
+
+      /*  private final Activity context;
         private final ArrayList<News> newsList;
 
-        static class ViewHolder
-        {
-            public TextView text;
-            public ImageView image;
-        }
 
         public NewsListAdapter(Activity context,ArrayList<News> newsList)
         {
@@ -65,6 +118,7 @@ public class NewsListAdapter extends ArrayAdapter<News>
             }
 
             Log.d("Data:",newsList.get(position).getTitle());
+
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
 
@@ -78,6 +132,6 @@ public class NewsListAdapter extends ArrayAdapter<News>
 
             return rowView;
         }
-    }
-//}
+    }*/
+}
 

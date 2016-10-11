@@ -8,4 +8,17 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">#286431</item>
+    </style>
+
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">#286431</item>
+        <item name="android:textColorSecondary">#286431</item>
+        <item name="actionMenuTextColor">#286431</item>
+
+        <item name="android:textColorPrimaryInverse">#286431</item>
+        <item name="drawerArrowStyle">@style/DrawerIcon</item>
+    </style>
+
 </resources>

@@ -1,13 +1,19 @@
 package com.zencon.zennews.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -18,6 +24,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zencon.zennews.R;
+import com.zencon.zennews.activity.NewsPageActivity;
 import com.zencon.zennews.adapter.NewsListAdapter;
 import com.zencon.zennews.model.News;
 
@@ -28,9 +35,11 @@ import java.util.List;
 /**
  * Created by aaa111 on 9/26/16.
  */
-public class NewsListFragment extends Fragment
+public class NewsListFragment extends  android.support.v4.app.Fragment
 {
     private View mainPageView;
+    private ListView newsListView;
+    private FrameLayout frameLayout;
     private ViewPager mainPageViewPager;
 
     public void onCreate(Bundle savedInstanceState)
@@ -40,7 +49,26 @@ public class NewsListFragment extends Fragment
 
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedBundleInstance)
     {
-        mainPageView = inflater.inflate(R.layout.fragment_news_page,viewGroup,false);
+        mainPageView = inflater.inflate(R.layout.fragment_news_list_page,viewGroup,false);
+
+        frameLayout = (FrameLayout) mainPageView.findViewById(R.id.newsPageLayout);
+
+        /* newsListView = (ListView) mainPageView.findViewById(R.id.newsListView);
+
+        newsListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });*/
 
         return mainPageView;
     }
@@ -61,14 +89,16 @@ public class NewsListFragment extends Fragment
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 "http://zennews24.com/wp-json/wp/v2/posts/?filter[category_name]="+category,
-                new Response.Listener<String>() {
+                new Response.Listener<String>()
+                {
                     @Override
-                    public void onResponse(String response) {
-
+                    public void onResponse(String response)
+                    {
                         Log.d("response:",response);
 
-                        try {
-                            Gson gson = new Gson();
+                        try
+                        {
+                            final Gson gson = new Gson();
 
                             String jsonOutput = response;
                             Type listType = new TypeToken<List<News>>(){}.getType();
@@ -81,7 +111,28 @@ public class NewsListFragment extends Fragment
                                 Log.d("Link : " , n.getLink());
                             }
 
-                            listView.setAdapter(new NewsListAdapter(getActivity(),posts));
+                            final NewsListAdapter newsListAdapter = new NewsListAdapter(getActivity(),getActivity(),posts);
+
+                            listView.setAdapter(new NewsListAdapter(getActivity(),getActivity(),posts));
+
+                            newsListView = (ListView) mainPageView.findViewById(R.id.newsListView);
+
+                            newsListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+                            {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                                {
+                                    Toast.makeText(getActivity().getApplicationContext(), "Touch", Toast.LENGTH_LONG).show();
+
+                                    String newsDetails = gson.toJson(newsListAdapter.getItem(position));
+
+                                    Intent i = new Intent(getActivity().getApplicationContext(), NewsPageActivity.class);
+
+                                    i.putExtra("NewsDetail", newsDetails);
+
+                                    startActivity(i);
+                                }
+                            });
                         }
                         catch(Exception ex)
                         {
@@ -89,15 +140,21 @@ public class NewsListFragment extends Fragment
                         }
                         Log.d("Response : ",response);
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                // mTextView.setText("That didn't work!");
-            }
+                },
+                new Response.ErrorListener()
+                {
+                    @Override
+                    public void onErrorResponse(VolleyError error)
+                    {
+                        // mTextView.setText("That didn't work!");
+                    }
         });
 
         queue.add(stringRequest);
     }
 
-
+    public interface NewsListItemClickListener
+    {
+        public void onNewsItemClicked(News news);
+    }
 }
