@@ -18,13 +18,8 @@ import java.util.ArrayList;
 
 class ItemHolder
 {
-    public ImageView navIconView;
+    //public ImageView navIconView;
     public TextView  navTextView;
-}
-
-class LineHolder
-{
-    public ImageView lineView;
 }
 
 public class NavigationAdapter extends BaseAdapter
@@ -82,7 +77,7 @@ public class NavigationAdapter extends BaseAdapter
 
                 holder = new ItemHolder();
 
-                holder.navIconView = (ImageView) convertView.findViewById(R.id.nav_icon);
+                //holder.navIconView = (ImageView) convertView.findViewById(R.id.nav_icon);
                 holder.navTextView = (TextView)  convertView.findViewById(R.id.nav_title);
 
                 convertView.setTag(holder);
@@ -92,7 +87,7 @@ public class NavigationAdapter extends BaseAdapter
                 holder = (ItemHolder) convertView.getTag();
             }
 
-            ImageLoader.getInstance().displayImage("drawable://" + navigationItems.get(position).getLeftIconId(),  holder.navIconView);
+            //ImageLoader.getInstance().displayImage("drawable://" + navigationItems.get(position).getLeftIconId(),  holder.navIconView);
             holder.navTextView.setText(navigationItems.get(position).getTitle());
 
 

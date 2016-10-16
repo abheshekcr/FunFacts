@@ -1,5 +1,6 @@
 package com.zencon.zennews.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -41,6 +42,7 @@ public class NewsListFragment extends  android.support.v4.app.Fragment
     private ListView newsListView;
     private FrameLayout frameLayout;
     private ViewPager mainPageViewPager;
+    private ProgressDialog progressDialog;
 
     public void onCreate(Bundle savedInstanceState)
     {
@@ -53,22 +55,8 @@ public class NewsListFragment extends  android.support.v4.app.Fragment
 
         frameLayout = (FrameLayout) mainPageView.findViewById(R.id.newsPageLayout);
 
-        /* newsListView = (ListView) mainPageView.findViewById(R.id.newsListView);
-
-        newsListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
-        });*/
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setTitle("Please Wait");
 
         return mainPageView;
     }
@@ -94,6 +82,8 @@ public class NewsListFragment extends  android.support.v4.app.Fragment
                     @Override
                     public void onResponse(String response)
                     {
+                        progressDialog.dismiss();
+
                         Log.d("response:",response);
 
                         try
@@ -146,11 +136,13 @@ public class NewsListFragment extends  android.support.v4.app.Fragment
                     @Override
                     public void onErrorResponse(VolleyError error)
                     {
-                        // mTextView.setText("That didn't work!");
+                        progressDialog.dismiss();
                     }
         });
 
         queue.add(stringRequest);
+
+        progressDialog.show();
     }
 
     public interface NewsListItemClickListener

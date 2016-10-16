@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private LinearLayout drawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private String[] navigationMenuTitles;
-    private TypedArray navigationLeftMenuIcons;
+    //private TypedArray navigationLeftMenuIcons;
     private ArrayList<NavigationItem> navDrawerItems;
     private NavigationAdapter adapter;
     private Toolbar myToolbar;
@@ -86,7 +86,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void initUI()
     {
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.jokeTypeTab);
+        initToolBar();
+
+        initNavigation();
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.newsTabLayout);
 
         tabLayout.addTab(tabLayout.newTab().setText("Latest News"));
         tabLayout.addTab(tabLayout.newTab().setText("bangladesh"));
@@ -143,9 +147,9 @@ public class MainActivity extends AppCompatActivity {
 
         myToolbar.setNavigationIcon(R.drawable.menu);
 
-        myToolbar.setTitle("What can we do for you today?");
+        myToolbar.setTitle("Zennews24");
 
-        myToolbar.setTitleTextColor(0xFF286431);
+        //myToolbar.setTitleTextColor(0x22222);
 
         setSupportActionBar(myToolbar);
     }
@@ -157,32 +161,32 @@ public class MainActivity extends AppCompatActivity {
         drawer = (LinearLayout) findViewById(R.id.cleanRideDrawer);
 
         navigationMenuTitles = getResources().getStringArray(R.array.navigation_list_items);
-        navigationLeftMenuIcons = getResources().obtainTypedArray(R.array.navigation_list_left_icon);
+       // navigationLeftMenuIcons = getResources().obtainTypedArray(R.array.navigation_list_left_icon);
 
         navigationDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationDrawerList = (ListView) findViewById(R.id.navSliderMenuTopList);
 
         navDrawerItems = new ArrayList<NavigationItem>();
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[0], navigationLeftMenuIcons.getResourceId(0, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[0]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[1], navigationLeftMenuIcons.getResourceId(1, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[1]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[2], navigationLeftMenuIcons.getResourceId(2, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[2]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[3], navigationLeftMenuIcons.getResourceId(3, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[3]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[4], navigationLeftMenuIcons.getResourceId(4, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[4]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[5], navigationLeftMenuIcons.getResourceId(5, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[5]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[5], navigationLeftMenuIcons.getResourceId(5, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[5]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[6], navigationLeftMenuIcons.getResourceId(6, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[6]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[7], navigationLeftMenuIcons.getResourceId(7, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[7]));
 
-        navDrawerItems.add(new NavigationItem(navigationMenuTitles[8], navigationLeftMenuIcons.getResourceId(8, -1)));
+        navDrawerItems.add(new NavigationItem(navigationMenuTitles[8]));
 
         navigationDrawerList.setOnItemClickListener(new SlideMenuClickListener());
 
@@ -240,6 +244,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     private void displayView(int position)
     {
         switch (position)
@@ -248,58 +253,62 @@ public class MainActivity extends AppCompatActivity {
 
                 mainPageViewPager.setCurrentItem(0);
 
-                myToolbar.setTitle("What can we do for you today?");
+                myToolbar.setTitle("Latest News");
 
                 break;
             case 1:
+                mainPageViewPager.setCurrentItem(1);
 
+                myToolbar.setTitle("Bangladesh");
 
                 break;
             case 2:
                 mainPageViewPager.setCurrentItem(2);
 
-                myToolbar.setTitle("Preferences");
+                myToolbar.setTitle("Politic");
 
                 break;
             case 3:
                 mainPageViewPager.setCurrentItem(3);
 
-                myToolbar.setTitle("Laundry Plan");
+                myToolbar.setTitle("Economy");
 
                 break;
             case 4:
                 mainPageViewPager.setCurrentItem(4);
 
-                myToolbar.setTitle("Dry Cleaning Plan");
+                myToolbar.setTitle("World");
 
                 break;
             case 5:
                 mainPageViewPager.setCurrentItem(5);
 
-                myToolbar.setTitle("Pricing");
+                myToolbar.setTitle("Sports");
+
+                break;
+            case 6:
+                mainPageViewPager.setCurrentItem(6);
+
+                myToolbar.setTitle("Entertainment");
 
                 break;
             case 7:
-                mainPageViewPager.setCurrentItem(6);
-
-                myToolbar.setTitle("Help");
-
-                break;
-            case 8:
                 mainPageViewPager.setCurrentItem(7);
 
-                myToolbar.setTitle("About");
+                myToolbar.setTitle("Lifestyle");
 
                 break;
 
+            case 8:
+                mainPageViewPager.setCurrentItem(8);
+
+                myToolbar.setTitle("Health");
+
+             break;
             case 9:
-                /*TokenHandler.getInstance().deleteAuthToken(getApplicationContext());
+                mainPageViewPager.setCurrentItem(9);
 
-                Intent i = new Intent(getApplicationContext(), LoadingActivity.class);
-
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-
-                startActivity(i);*/
+                myToolbar.setTitle("Chittagong");
 
                 break;
             default:

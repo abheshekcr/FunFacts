@@ -1,15 +1,16 @@
 <resources>
     <string name="app_name">Zennews</string>
-
     <string-array name="navigation_list_items">
-        <item>Order</item>
-        <item>Your Profile</item>
-        <item>Preferences</item>
-        <item>Laundry Plan</item>
-        <item>Dry Cleaning Plan</item>
-        <item>Pricing</item>
-        <item>Help</item>
-        <item>About</item>
-        <item>Sign Out</item>
+        <item>Latest News</item>
+        <item>Bangladesh</item>
+        <item>Politics</item>
+        <item>Economy</item>
+        <item>World</item>
+        <item>Sports</item>
+        <item>Entertainment</item>
+        <item>Life Style</item>
+        <item>Science and Technology</item>
+        <item>Health</item>
+        <item>Chittagong</item>
     </string-array>
 </resources>
