@@ -2,50 +2,25 @@ package com.zencon.zennews.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class News
+/**
+ * Created by aaa111 on 10/22/16.
+ */
+public class NewsDetails
 {
-    @SerializedName("id")
-    private int id;
-
     @SerializedName("title")
     private Title title;
-
-    @SerializedName("link")
-    private String link;
 
     @SerializedName("ccw_thumbnail")
     private String thumbNailPath;
 
     @SerializedName("content")
-    private String content;
+    private Content content;
 
-    public News(int id,String link, Title title,String thumbNailPath,String content)
+    public NewsDetails(Title title,String thumbNailPath,Content content)
     {
-        this.id = id;
-        this.link = link;
         this.title = title;
         this.thumbNailPath = thumbNailPath;
         this.content = content;
-    }
-
-    public int getId()
-    {
-        return id;
-    }
-
-    public void setId(int id)
-    {
-        this.id = id;
-    }
-
-    public String getLink()
-    {
-        return link;
-    }
-
-    public void setLink(String link)
-    {
-        this.link = link;
     }
 
     public Title getTitle()
@@ -63,17 +38,16 @@ public class News
         return thumbNailPath;
     }
 
-    public void setThumbNailPath(String thumbNailPath)
-    {
+    public void setThumbNailPath(String thumbNailPath) {
         this.thumbNailPath = thumbNailPath;
     }
 
-    public String getContent()
+    public Content getContent()
     {
         return content;
     }
 
-    public void setContent(String content)
+    public void setContent(Content content)
     {
         this.content = content;
     }

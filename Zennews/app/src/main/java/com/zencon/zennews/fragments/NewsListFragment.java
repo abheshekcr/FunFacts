@@ -3,9 +3,6 @@ package com.zencon.zennews.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -76,7 +73,7 @@ public class NewsListFragment extends  android.support.v4.app.Fragment
         RequestQueue queue = Volley.newRequestQueue(getActivity());
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                "http://zennews24.com/wp-json/wp/v2/posts/?filter[category_name]="+category,
+                "http://zennews24.com/wp-json/wp/v2/posts?fields=id,title,ccw_thumbnail&filter[category_name]="+category+"&filter[posts_per_page]=20",
                 new Response.Listener<String>()
                 {
                     @Override
@@ -94,12 +91,12 @@ public class NewsListFragment extends  android.support.v4.app.Fragment
                             Type listType = new TypeToken<List<News>>(){}.getType();
                             ArrayList<News> posts = (ArrayList<News>) gson.fromJson(jsonOutput, listType);
 
-                            for(News n : posts)
+                            /*for(News n : posts)
                             {
-                                Log.d("Title : " , n.getTitle());
+                                Log.d("Title : " , n.getTitle().getRendered());
                                 Log.d("Thumbnail : " , n.getThumbNailPath());
                                 Log.d("Link : " , n.getLink());
-                            }
+                            }*/
 
                             final NewsListAdapter newsListAdapter = new NewsListAdapter(getActivity(),getActivity(),posts);
 
@@ -114,11 +111,9 @@ public class NewsListFragment extends  android.support.v4.app.Fragment
                                 {
                                     Toast.makeText(getActivity().getApplicationContext(), "Touch", Toast.LENGTH_LONG).show();
 
-                                    String newsDetails = gson.toJson(newsListAdapter.getItem(position));
-
                                     Intent i = new Intent(getActivity().getApplicationContext(), NewsPageActivity.class);
 
-                                    i.putExtra("NewsDetail", newsDetails);
+                                    i.putExtra("NewsID", newsListAdapter.getItem(position).getId() + "");
 
                                     startActivity(i);
                                 }

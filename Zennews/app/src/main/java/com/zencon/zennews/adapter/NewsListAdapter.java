@@ -2,12 +2,8 @@ package com.zencon.zennews.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -65,11 +61,12 @@ public class NewsListAdapter extends GenericListAdapter<News>
 
         News news = items.get(position);
 
+        
         ImageLoader imageLoader = ImageLoader.getInstance(); // Get singleton instance
 
         imageLoader.displayImage(news.getThumbNailPath(), holder.image);
 
-        hd.text.setText(news.getTitle());
+        hd.text.setText(news.getTitle().getRendered());
 
         return convertView;
     }

@@ -37,10 +37,8 @@ public class NewsPageFragments extends Fragment
     }
 
 
-    public void loadNewsList()
-    {
 
-    }
+
 
 
 }
